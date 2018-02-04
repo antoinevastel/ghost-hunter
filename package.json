@@ -1,5 +1,5 @@
 {
-  "name": "Ghost hunter",
+  "name": "ghost-hunter",
   "version": "1.0.0",
   "description": "Detects PhantomJS",
   "main": "index.js",
