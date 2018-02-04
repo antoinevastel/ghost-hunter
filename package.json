@@ -4,7 +4,7 @@
   "description": "Detects PhantomJS",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/browserify test/src/test.js -o  test/lib/test.js && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./test/test.html",
+    "test": "npm run build && ./node_modules/.bin/browserify test/src/test.js -o  test/lib/test.js && phantomjs ./node_modules/mocha-phantomjs-core/mocha-phantomjs-core.js ./test/test.html",
     "start": "phantomjs ./lib/index.js",
     "build": "./node_modules/.bin/babel src -d lib",
     "dev": "npm run build && npm start"
