@@ -6,14 +6,6 @@ module.exports = function() {
         Close to Safari since it uses Webkit, thus ideally someone that'd try to hide should try to fake safari
      */
 
-    // TODO look at error with websocket
-    function detectionTest(testName, fn) {
-        const detectionPassed = fn(page);
-        if (detectionPassed) {
-            console.log(`PhantomJS detected via ${testName}`);
-        }
-    }
-
     function testUserAgent() {
         return /PhantomJS/.test(window.navigator.userAgent);
     }
@@ -70,6 +62,32 @@ module.exports = function() {
         return !window.matchMedia('(min-width: '+(screen.availWidth-1)+'px)').matches;
     }
 
+    function testStackOverflow() {
+        let depth = 0;
+        let errorMessage = '';
+        let errorName= '';
+        let errorStacklength = 0;
+
+        function iWillBetrayYouWithMyLongName() {
+            try {
+                depth++;
+                iWillBetrayYouWithMyLongName();
+            } catch (e) {
+                errorMessage = e.message;
+                errorName = e.name;
+                errorStacklength = e.stack.toString().length;
+            }
+        }
+
+        iWillBetrayYouWithMyLongName();
+
+        console.log(depth+", "+errorStacklength+", "+(20*depth));
+        console.log(errorStacklength > 20*depth);
+        return errorName === 'RangeError' &&
+            errorMessage === 'Maximum call stack size exceeded.' &&
+            errorStacklength > 20*depth;
+    }
+
 
     return {
         userAgent: testUserAgent,
@@ -79,6 +97,7 @@ module.exports = function() {
         etsl: testEtsl,
         languages: testLanguages,
         websocket: testWebsocket,
-        screenMediaQuery: testScreenMediaQuery
+        screenMediaQuery: testScreenMediaQuery,
+        stackOverflow: testStackOverflow
     }
 }();
