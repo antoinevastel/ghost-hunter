@@ -81,13 +81,14 @@ module.exports = function() {
 
         iWillBetrayYouWithMyLongName();
 
-        console.log(depth+", "+errorStacklength+", "+(20*depth));
-        console.log(errorStacklength > 20*depth);
         return errorName === 'RangeError' &&
             errorMessage === 'Maximum call stack size exceeded.' &&
             errorStacklength > 20*depth;
     }
 
+    function testWindowHeight() {
+        return window.outerHeight - window.innerHeight < 0;
+    }
 
     return {
         userAgent: testUserAgent,
@@ -98,6 +99,7 @@ module.exports = function() {
         languages: testLanguages,
         websocket: testWebsocket,
         screenMediaQuery: testScreenMediaQuery,
-        stackOverflow: testStackOverflow
+        stackOverflow: testStackOverflow,
+        windowHeight: testWindowHeight
     }
 }();
